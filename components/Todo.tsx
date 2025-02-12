@@ -8,7 +8,12 @@ import {
 } from "@/components/ui/card";
 import { Input } from "./ui/input";
 import { useState } from "react";
-import { addTodo, deleteTodo, toggleTodo } from "@/actions/todoAction";
+import {
+  addTodo,
+  deleteTodo,
+  editTodo,
+  toggleTodo,
+} from "@/actions/todoAction";
 import { todoType } from "@/types/todoType";
 import { Button } from "./ui/button";
 import { Checkbox } from "./ui/checkbox";
@@ -19,6 +24,8 @@ interface Todo {
 }
 export default function Todo({ tasks }: Todo) {
   const [task, setTask] = useState("testing");
+  const [editId, setEditId] = useState<string | null>(null);
+  const [editText, setEditText] = useState("");
   const handleAdd = () => {
     if (!task.trim()) return;
     try {
@@ -27,7 +34,6 @@ export default function Todo({ tasks }: Todo) {
       console.error("Failed", error);
     }
   };
-  const handleEdit = () => {};
   const handleDelete = (id: string) => {
     if (!id) return;
     try {
@@ -61,16 +67,50 @@ export default function Todo({ tasks }: Todo) {
                   defaultChecked={todo.isComplete}
                   onCheckedChange={() => toggleTodo(todo.id)}
                 />
-                <Label htmlFor={todo.id} className="text-lg">
-                  {todo.task}
-                </Label>
+                {editId !== todo.id ? (
+                  <Label htmlFor={todo.id} className="text-lg">
+                    {todo.task}
+                  </Label>
+                ) : (
+                  <Input
+                    value={editText}
+                    onChange={(e) => setEditText(e.target.value)}
+                  />
+                )}
               </div>
               <div className="flex items-center justify-center gap-2">
-                <Pencil onClick={handleEdit} />
-                <Trash2
-                  onClick={() => handleDelete(todo.id)}
-                  className="text-red-500"
-                />
+                {editId !== todo.id ? (
+                  <Pencil
+                    onClick={() => {
+                      setEditText(todo.task);
+                      setEditId(todo.id);
+                    }}
+                  />
+                ) : (
+                  <Button
+                    className="bg-blue-400"
+                    onClick={() => {
+                      editTodo(editId, editText);
+                      setEditId(null);
+                    }}
+                  >
+                    Save
+                  </Button>
+                )}
+
+                {editId !== todo.id ? (
+                  <Trash2
+                    onClick={() => handleDelete(todo.id)}
+                    className="text-red-500"
+                  />
+                ) : (
+                  <Button
+                    className="bg-red-500"
+                    onClick={() => setEditId(null)}
+                  >
+                    Cancel
+                  </Button>
+                )}
               </div>
             </div>
           ))}
