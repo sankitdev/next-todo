@@ -1,16 +1,14 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
 
 interface CyberBackgroundProps {
-  title?: string;
-  subtitle?: string;
   particleCount?: number;
   noiseIntensity?: number;
   particleSize?: { min: number; max: number };
   className?: string;
+  children: React.ReactNode;
 }
 
 function createNoise() {
@@ -122,12 +120,11 @@ interface Particle {
 }
 
 export default function ParticlesBackground({
-  title = "Particles Background",
-  subtitle = "Make your website stand out",
   particleCount = 2000,
   noiseIntensity = 0.003,
   particleSize = { min: 0.5, max: 2 },
   className,
+  children,
 }: CyberBackgroundProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const noise = createNoise();
@@ -229,19 +226,7 @@ export default function ParticlesBackground({
     >
       <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
       <div className="relative z-10 flex flex-col items-center justify-center w-full h-full">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="text-center space-y-4"
-        >
-          <h1 className="text-6xl md:text-8xl font-bold bg-clip-text text-transparent bg-gradient-to-b from-black to-black/70 dark:from-white dark:to-white/70 drop-shadow-sm">
-            {title}
-          </h1>
-          <p className="text-xl md:text-2xl font-medium bg-clip-text text-transparent bg-gradient-to-b from-black/90 to-black/50 dark:from-white/90 dark:to-white/50">
-            {subtitle}
-          </p>
-        </motion.div>
+        {children}
       </div>
     </div>
   );
