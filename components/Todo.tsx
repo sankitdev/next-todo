@@ -12,8 +12,9 @@ import { addTodo } from "@/actions/todoAction";
 import { TodoProps } from "@/types/todoType";
 import TodoItem from "./TodoItem";
 import { styles } from "@/components/styles/todo";
-import ParticleButton from "./kokonutui/particle-button";
 import { Schoolbell } from "next/font/google";
+import { Button } from "./ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 const school_bell = Schoolbell({ weight: ["400"] });
 export default function Todo({ tasks }: TodoProps) {
   const [task, setTask] = useState("");
@@ -30,7 +31,8 @@ export default function Todo({ tasks }: TodoProps) {
   };
 
   return (
-    <div
+    <Tabs
+      defaultValue="all"
       className={`${styles.container} ${school_bell.className} motion-preset-expand `}
     >
       <Card className="w-full h-auto">
@@ -45,26 +47,64 @@ export default function Todo({ tasks }: TodoProps) {
               placeholder="Enter task"
               value={task}
               onChange={(e) => setTask(e.target.value)}
+              className="my-2"
             />
-            <ParticleButton
+            <Button
               onClick={handleAdd}
-              className="motion-preset-compress "
+              className="hover:motion-preset-confetti hover:motion-duration-1000"
             >
               Add
-            </ParticleButton>
+            </Button>
           </div>
-          {tasks.map((todo) => (
-            <TodoItem
-              key={todo.id}
-              todo={todo}
-              editId={editId}
-              setEditId={setEditId}
-              setEditText={setEditText}
-              editText={editText}
-            />
-          ))}
+          <TabsContent value="all">
+            {tasks.map((todo) => (
+              <TodoItem
+                key={todo.id}
+                todo={todo}
+                editId={editId}
+                setEditId={setEditId}
+                setEditText={setEditText}
+                editText={editText}
+              />
+            ))}
+          </TabsContent>
+          <TabsContent value="pending">
+            {tasks.map(
+              (todo) =>
+                !todo.isComplete && (
+                  <TodoItem
+                    key={todo.id}
+                    todo={todo}
+                    editId={editId}
+                    setEditId={setEditId}
+                    setEditText={setEditText}
+                    editText={editText}
+                  />
+                )
+            )}
+          </TabsContent>
+          <TabsContent value="complete">
+            {tasks.map(
+              (todo) =>
+                todo.isComplete && (
+                  <TodoItem
+                    key={todo.id}
+                    todo={todo}
+                    editId={editId}
+                    setEditId={setEditId}
+                    setEditText={setEditText}
+                    editText={editText}
+                  />
+                )
+            )}
+          </TabsContent>
         </CardContent>
+        <TabsList className="grid w-4/5 m-auto grid-cols-3 mb-4">
+          <TabsTrigger value="all">All</TabsTrigger>
+          <TabsTrigger value="pending">Pending</TabsTrigger>
+          <TabsTrigger value="complete">Complete</TabsTrigger>
+        </TabsList>
       </Card>
-    </div>
+    </Tabs>
   );
 }

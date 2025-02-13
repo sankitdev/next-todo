@@ -32,7 +32,7 @@ export default function TodoItem({
         {editId !== todo.id ? (
           <Label
             htmlFor={todo.id}
-            className="text-lg motion-opacity-in-0 motion-translate-y-in-100 motion-blur-in-md hover:motion-preset-focus "
+            className="text-md motion-opacity-in-0 motion-translate-y-in-100 motion-blur-in-md hover:motion-preset-focus "
           >
             {todo.task}
           </Label>
