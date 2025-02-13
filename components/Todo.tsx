@@ -13,7 +13,6 @@ import { TodoProps } from "@/types/todoType";
 import TodoItem from "./TodoItem";
 import { styles } from "@/components/styles/todo";
 import ParticleButton from "./kokonutui/particle-button";
-import { motion } from "motion/react";
 import { Schoolbell } from "next/font/google";
 const school_bell = Schoolbell({ weight: ["400"] });
 export default function Todo({ tasks }: TodoProps) {
@@ -31,10 +30,8 @@ export default function Todo({ tasks }: TodoProps) {
   };
 
   return (
-    <motion.div
-      initial={{ scale: 0 }}
-      animate={{ scale: 1 }}
-      className={`${styles.container} ${school_bell.className}`}
+    <div
+      className={`${styles.container} ${school_bell.className} motion-preset-expand `}
     >
       <Card className="w-full h-auto">
         <CardHeader>
@@ -42,15 +39,20 @@ export default function Todo({ tasks }: TodoProps) {
           <CardDescription>Add Tasks to Test</CardDescription>
         </CardHeader>
         <CardContent>
-          <motion.div className="flex gap-2">
+          <div className="flex gap-2">
             <Input
               id="task"
               placeholder="Enter task"
               value={task}
               onChange={(e) => setTask(e.target.value)}
             />
-            <ParticleButton onClick={handleAdd}>Add</ParticleButton>
-          </motion.div>
+            <ParticleButton
+              onClick={handleAdd}
+              className="motion-preset-compress "
+            >
+              Add
+            </ParticleButton>
+          </div>
           {tasks.map((todo) => (
             <TodoItem
               key={todo.id}
@@ -63,6 +65,6 @@ export default function Todo({ tasks }: TodoProps) {
           ))}
         </CardContent>
       </Card>
-    </motion.div>
+    </div>
   );
 }
