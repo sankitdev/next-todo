@@ -10,9 +10,9 @@ import { Input } from "./ui/input";
 import { useState } from "react";
 import { addTodo } from "@/actions/todoAction";
 import { TodoProps } from "@/types/todoType";
-import { Button } from "./ui/button";
 import TodoItem from "./TodoItem";
 import { styles } from "@/components/styles/todo";
+import ParticleButton from "./kokonutui/particle-button";
 
 export default function Todo({ tasks }: TodoProps) {
   const [task, setTask] = useState("");
@@ -42,7 +42,7 @@ export default function Todo({ tasks }: TodoProps) {
               value={task}
               onChange={(e) => setTask(e.target.value)}
             />
-            <Button onClick={handleAdd}>Add</Button>
+            <ParticleButton onClick={handleAdd}>Add</ParticleButton>
           </div>
           {tasks.map((todo) => (
             <TodoItem
