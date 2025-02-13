@@ -14,6 +14,8 @@ import TodoItem from "./TodoItem";
 import { styles } from "@/components/styles/todo";
 import ParticleButton from "./kokonutui/particle-button";
 import { motion } from "motion/react";
+import { Schoolbell } from "next/font/google";
+const school_bell = Schoolbell({ weight: ["400"] });
 export default function Todo({ tasks }: TodoProps) {
   const [task, setTask] = useState("");
   const [editId, setEditId] = useState<string | null>(null);
@@ -22,6 +24,7 @@ export default function Todo({ tasks }: TodoProps) {
     if (!task.trim()) return;
     try {
       addTodo(task);
+      setTask("");
     } catch (error) {
       console.error("Failed", error);
     }
@@ -31,7 +34,7 @@ export default function Todo({ tasks }: TodoProps) {
     <motion.div
       initial={{ scale: 0 }}
       animate={{ scale: 1 }}
-      className={styles.container}
+      className={`${styles.container} ${school_bell.className}`}
     >
       <Card className="w-full h-auto">
         <CardHeader>
@@ -39,7 +42,7 @@ export default function Todo({ tasks }: TodoProps) {
           <CardDescription>Add Tasks to Test</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="flex">
+          <motion.div className="flex gap-2">
             <Input
               id="task"
               placeholder="Enter task"
@@ -47,7 +50,7 @@ export default function Todo({ tasks }: TodoProps) {
               onChange={(e) => setTask(e.target.value)}
             />
             <ParticleButton onClick={handleAdd}>Add</ParticleButton>
-          </div>
+          </motion.div>
           {tasks.map((todo) => (
             <TodoItem
               key={todo.id}
