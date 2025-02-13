@@ -6,7 +6,7 @@ import { Button } from "./ui/button";
 import { deleteTodo, editTodo, toggleTodo } from "@/actions/todoAction";
 import { styles } from "@/components/styles/todo";
 import { TodoItemProps } from "@/types/todoType";
-
+import { motion } from "motion/react";
 export default function TodoItem({
   todo,
   editId,
@@ -23,7 +23,7 @@ export default function TodoItem({
     }
   };
   return (
-    <div className={styles.taskRow}>
+    <div className={`${styles.taskRow}`}>
       <div className={styles.actionGroup}>
         <Checkbox
           id={todo.id}
@@ -31,9 +31,16 @@ export default function TodoItem({
           onCheckedChange={() => toggleTodo(todo.id)}
         />
         {editId !== todo.id ? (
-          <Label htmlFor={todo.id} className="text-lg">
-            {todo.task}
-          </Label>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.3 }}
+          >
+            <Label htmlFor={todo.id} className="text-lg">
+              {todo.task}
+            </Label>
+          </motion.div>
         ) : (
           <Input
             value={editText}
@@ -41,7 +48,13 @@ export default function TodoItem({
           />
         )}
       </div>
-      <div className={styles.taskRow}>
+      <motion.div
+        className={styles.taskRow}
+        whileHover={{
+          scale: 1.1,
+          transition: { duration: 0.2 },
+        }}
+      >
         {editId !== todo.id ? (
           <Pencil
             onClick={() => {
@@ -74,7 +87,7 @@ export default function TodoItem({
             Cancel
           </Button>
         )}
-      </div>
+      </motion.div>
     </div>
   );
 }
