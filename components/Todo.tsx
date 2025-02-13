@@ -13,7 +13,7 @@ import { TodoProps } from "@/types/todoType";
 import TodoItem from "./TodoItem";
 import { styles } from "@/components/styles/todo";
 import ParticleButton from "./kokonutui/particle-button";
-
+import { motion } from "motion/react";
 export default function Todo({ tasks }: TodoProps) {
   const [task, setTask] = useState("");
   const [editId, setEditId] = useState<string | null>(null);
@@ -28,8 +28,12 @@ export default function Todo({ tasks }: TodoProps) {
   };
 
   return (
-    <div className={styles.container}>
-      <Card className="w-full max-w-md">
+    <motion.div
+      initial={{ scale: 0 }}
+      animate={{ scale: 1 }}
+      className={styles.container}
+    >
+      <Card className="w-full h-auto">
         <CardHeader>
           <CardTitle>Todo App</CardTitle>
           <CardDescription>Add Tasks to Test</CardDescription>
@@ -56,6 +60,6 @@ export default function Todo({ tasks }: TodoProps) {
           ))}
         </CardContent>
       </Card>
-    </div>
+    </motion.div>
   );
 }
