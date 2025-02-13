@@ -5,13 +5,15 @@ import { Label } from "./ui/label";
 import { Button } from "./ui/button";
 import { deleteTodo, editTodo, toggleTodo } from "@/actions/todoAction";
 import { styles } from "@/components/styles/todo";
+import { TodoItemProps } from "@/types/todoType";
+
 export default function TodoItem({
   todo,
   editId,
   setEditText,
   setEditId,
   editText,
-}) {
+}: TodoItemProps) {
   const handleDelete = (id: string) => {
     if (!id) return;
     try {

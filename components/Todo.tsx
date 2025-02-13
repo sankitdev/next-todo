@@ -9,14 +9,12 @@ import {
 import { Input } from "./ui/input";
 import { useState } from "react";
 import { addTodo } from "@/actions/todoAction";
-import { todoType } from "@/types/todoType";
+import { TodoProps } from "@/types/todoType";
 import { Button } from "./ui/button";
 import TodoItem from "./TodoItem";
 import { styles } from "@/components/styles/todo";
-interface Todo {
-  tasks: todoType[];
-}
-export default function Todo({ tasks }: Todo) {
+
+export default function Todo({ tasks }: TodoProps) {
   const [task, setTask] = useState("");
   const [editId, setEditId] = useState<string | null>(null);
   const [editText, setEditText] = useState("");
