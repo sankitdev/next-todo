@@ -1,11 +1,5 @@
 "use client";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "./ui/input";
 import { useState } from "react";
 import { addTodo } from "@/actions/todoAction";
@@ -15,6 +9,7 @@ import { styles } from "@/components/styles/todo";
 import { Schoolbell } from "next/font/google";
 import { Button } from "./ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
+import { ModeToggle } from "./theme-toggle";
 const school_bell = Schoolbell({ weight: ["400"] });
 export default function Todo({ tasks }: TodoProps) {
   const [task, setTask] = useState("");
@@ -37,8 +32,10 @@ export default function Todo({ tasks }: TodoProps) {
     >
       <Card className="w-full h-auto">
         <CardHeader>
-          <CardTitle>Todo App</CardTitle>
-          <CardDescription>Add Tasks to Test</CardDescription>
+          <CardTitle className="flex justify-between items-center">
+            <h1 className="text-lg">Todo App</h1>
+            <ModeToggle />
+          </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex gap-2">
